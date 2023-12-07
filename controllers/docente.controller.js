@@ -40,13 +40,28 @@ const docenteController = {
     }
   },
 
-  delteDocente: async (req, res) => {
+  getDocente: async (req, res) => {
     try {
-      const { id } = req.params; 
-      const docente = await docente.destroy({
+      const { id } = req.params;
+      console.log(id);
+      const docentedb = await docente.findOne({
         where: { id }
       });
-      res.status(200).json(docente);
+      res.status(200).json(docentedb);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  deleteDocente: async (req, res) => {
+    try {
+      const { id } = req.params; 
+      await docente.destroy({
+        where: { id }
+      });
+      console.log(id);
+      res.status(200).json();
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -57,10 +72,10 @@ const docenteController = {
       const { codigo, nombre, materia, grupo } = req.body;
       const data = { codigo, nombre, materia, grupo };
       const { id } = req.params; 
-      const docente = await docente.update(data, {
+      const docentedb = await docente.update(data, {
         where: { id }
       });
-      res.status(200).json(docente);
+      res.status(200).json(docentedb);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
