@@ -40,6 +40,31 @@ const docenteController = {
     }
   },
 
+  delteDocente: async (req, res) => {
+    try {
+      const { id } = req.params; 
+      const docente = await docente.destroy({
+        where: { id }
+      });
+      res.status(200).json(docente);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  updateDocente: async (req, res) => {
+    try {
+      const { codigo, nombre, materia, grupo } = req.body;
+      const data = { codigo, nombre, materia, grupo };
+      const { id } = req.params; 
+      const docente = await docente.update(data, {
+        where: { id }
+      });
+      res.status(200).json(docente);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
   // Agregar otras funciones según sea necesario
 };
 
